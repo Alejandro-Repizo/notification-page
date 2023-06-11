@@ -1,0 +1,164 @@
+---
+import Layout from "../layouts/Layout.astro";
+import Notification from "../components/Notification.astro";
+
+ 
+const IMAGE_URL = '/assets/images/'
+const NOTIFICATIONS = [
+	{
+		photo: 'avatar-mark-webber.webp',
+		user: 'Mark Webber',
+		notification: {
+			read: false,
+			action: 'reacted to your recent post',
+			event: 'My first tournament today!',
+			date: '1m ago'
+		}
+	},
+	{
+		photo: 'avatar-angela-gray.webp',
+		user: 'Angela Gray',
+		notification: {
+			read: false,
+			action: 'followed you',
+			date: '5m ago'
+		}
+	},
+	{
+		photo: 'avatar-jacob-thompson.webp',
+		user: 'Jacob Thompson',
+		notification: {
+			read: false,
+			action: 'has joined your group',
+			event: 'Chess Club',
+			type: 'group',
+			date: '1 day ago'
+		}
+	},
+	{
+		photo: 'avatar-rizky-hasanuddin.webp',
+		user: 'Rizky Hasanuddin',
+		notification: {
+			read: true,
+			action: 'sent yout a private message',
+			date: '5 days ago',
+			content: {
+				text: "Hello, thanks for setting up the Chess Club. I've been a member for a few weeks now and I'm already having lots of fun and improving my game."
+			}
+		}
+	},
+	{
+		photo: 'avatar-kimberly-smith.webp',
+		user: 'Kimberly Smith',
+		notification: {
+			read: true,
+			action: 'commented on your picture',
+			date: '1 week ago',
+			content: {
+				image: "/assets/images/image-chess.webp"
+			}
+		}
+	},
+	{
+		
+		photo: 'avatar-nathan-peterson.webp',
+		user: 'Nathan Peterson',
+		notification: {
+			read: true,
+			action: 'reacted to your recent post',
+			event: '5 end-game strategies to increase your win rate',
+			date: '2 week ago'
+		}
+
+	},
+	{
+		photo: 'avatar-anna-kim.webp',
+		user: 'Anna Kim',
+		notification: {
+			read: true,
+			action: 'left the group',
+			event: 'Chess Club',
+			type: 'group',
+			date: '2 week ago'
+		}
+	},
+]
+
+---
+
+<Layout title="Notification page">
+	<main>
+		<section class="page">
+			<header class="page__header">
+				<h1>Notifications <span>3</span></h1>
+
+				<button class="button"> Mark all as read</button>
+			</header>
+
+			<ul class="list">
+				{
+					NOTIFICATIONS.map((item) => {
+						const { notification } = item
+
+						return (
+							<li>
+								<Notification
+									photo={IMAGE_URL + item.photo}
+									user={item.user}
+									read={notification.read}
+									action={notification.action}
+									event={notification?.event}
+									type={notification?.type}
+									date={notification.date}
+									content={notification?.content && {...notification.content}}
+								/>
+							</li>
+						)
+					})
+				}
+			</ul>
+		</section>
+	</main>
+</Layout>
+
+<style>
+	.page {
+		width: min(60ch, 100vw - 2rem);
+		display: flex;
+		flex-direction: column;
+		padding: 0.6rem clamp(1rem, 5%, 1.8rem);
+		background-color: var(--clr-white);
+		border-radius: 0.8rem;
+		box-shadow: 0px 0px 0.4rem 0px var(--clr-neutral-blue-200);
+	}
+
+	.page__header {
+		width: 100%;
+		display: flex;
+		align-items: center;
+		justify-content: space-between;
+		margin-block: 1.4rem;
+	}
+
+	.page__header h1 {
+		font-weight: 800;
+	}
+
+	.page__header h1 span {
+		padding: 0.1rem 0.7rem;
+		margin-inline: 0.5rem;
+		color: var(--clr-white);
+		font-size: clamp(0.5rem, 4vw + 1rem, 1rem);
+		background-color: var(--clr-primary-blue);
+		border-radius: 0.3rem;
+	}
+
+	.list {
+		list-style: none;
+		padding-inline: 0;
+	}
+
+	.list li {
+		margin-block: 0.5rem;
+	}
+</style>

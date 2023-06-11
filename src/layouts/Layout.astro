@@ -1,0 +1,87 @@
+---
+export interface Props {
+	title: string;
+}
+
+const {title} = Astro.props;
+---
+
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="UTF-8" />
+		<meta name="description" content="Astro description" />
+		<meta name="viewport" content="width=device-width" />
+		<link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+		<meta name="generator" content={Astro.generator} />
+		<title>{title}</title>
+	</head>
+	<body>
+		<slot />
+
+		<footer class="attribution">
+			Challenge by <a href="https://www.frontendmentor.io?ref=challenge" target="_blank">Frontend Mentor</a>.
+			Coded by <a href="https://github.com/Alejandro-Repizo">Alejandro-Repizo</a>.
+		</footer>
+	</body>
+</html>
+<style is:global>
+	:root {
+		--clr-primary-red: hsl(1, 90%, 64%);
+		--clr-primary-blue: hsl(219, 85%, 26%);
+
+		--clr-white: hsl(0, 0%, 100%);
+		--clr-neutral-blue-100: hsl(210, 60%, 98%);
+		--clr-neutral-blue-200: hsl(211, 68%, 94%);
+		--clr-neutral-blue-300: hsl(205, 33%, 90%);
+		--clr-neutral-blue-400: hsl(219, 14%, 63%);
+		--clr-neutral-blue-500: hsl(219, 12%, 42%);
+		--clr-neutral-blue-600: hsl(224, 21%, 14%);
+	}
+
+	@font-face {
+		font-family: "Plus Jakarta Sans";
+		src: url(./assets/fonts/PlusJakartaSans-VariableFont_wght.ttf)
+				format("truetype"),
+			url(./assets/fonts/static/PlusJakartaSans-ExtraBold.ttf)
+				format("truetype"),
+			url(./assets/fonts/static//PlusJakartaSans-Medium.ttf)
+				format("truetype");
+		font-weight: 200 500 800;
+		font-style: normal;
+	}
+
+	* {
+		margin: 0;
+		box-sizing: border-box;
+	}
+
+	html,
+	body {
+		height: 100%;
+	}
+
+	body {
+		display: grid;
+		grid-template-rows: 1fr 80px;
+		place-items: center;
+		font-size: 1rem;
+		font-family: "Plus Jakarta Sans", sans-serif;
+		-webkit-font-smoothing: antialiased;
+		background-color: var(--clr-neutral-blue-100);
+		color: var(--clr-neutral-blue-600);
+	}
+
+	h1 {
+		font-size: clamp(1rem, 4vw + 1rem, 1.3rem);
+	}
+
+	.button {
+		--font-size: clamp(0.8rem, 4vw + 1rem, 1rem );
+
+		color: var(--clr-primary-blue);
+		font-size: var(--font-size);
+		border: 1px solid transparent;
+		background-color: transparent;
+	}
+</style>
