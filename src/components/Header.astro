@@ -1,0 +1,60 @@
+---
+
+
+---
+
+<header>
+    <h1>Notifications <span id="total_notifications">0</span></h1>
+    <button class="button" id="mark_all_as_read">Mark all as read</button>
+</header>
+
+<script>
+ 	import Notification from "../scripts/Notification";
+	import Observable from "../scripts/Observable";
+
+	const notificationInstance = new Notification('notification--active');
+
+	const counterElement = document.getElementById('total_notifications');
+	const buttonElement = document.getElementById('mark_all_as_read');
+
+	// Función para actualizar el texto del contador de notificaciones sin leer en el elemento del DOM
+	function updateCounterText() {
+		counterElement.innerText = notificationInstance.getUnreadNotificationCount();
+	}
+
+	// Asigna el evento de clic al botón para limpiar todas las notificaciones
+	buttonElement.addEventListener('click', () => {
+		notificationInstance.clearAllNotifications();
+		Observable.notify();
+	});
+
+	// Actualiza el texto del contador al cargar la página
+	updateCounterText();
+
+	// Suscribe la función updateCounterText a los cambios en las notificaciones
+	Observable.subscribe(updateCounterText);
+</script>
+    
+
+<style>
+    header {
+		width: 100%;
+		display: flex;
+		align-items: center;
+		justify-content: space-between;
+		margin-block: 1.4rem;
+	}
+
+	header h1 {
+		font-weight: 800;
+	}
+
+	header h1 span {
+		padding: 0.1rem 0.7rem;
+		margin-inline: 0.5rem;
+		color: var(--clr-white);
+		font-size: clamp(0.5rem, 4vw + 1rem, 1rem);
+		background-color: var(--clr-primary-blue);
+		border-radius: 0.3rem;
+	}
+</style>

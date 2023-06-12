@@ -1,6 +1,7 @@
 ---
 import Layout from "../layouts/Layout.astro";
 import Notification from "../components/Notification.astro";
+import Header from "../components/Header.astro";
 
  
 const IMAGE_URL = '/assets/images/'
@@ -89,11 +90,7 @@ const NOTIFICATIONS = [
 <Layout title="Notification page">
 	<main>
 		<section class="page">
-			<header class="page__header">
-				<h1>Notifications <span>3</span></h1>
-
-				<button class="button"> Mark all as read</button>
-			</header>
+			<Header/>
 
 			<ul class="list">
 				{
@@ -130,27 +127,6 @@ const NOTIFICATIONS = [
 		background-color: var(--clr-white);
 		border-radius: 0.8rem;
 		box-shadow: 0px 0px 0.4rem 0px var(--clr-neutral-blue-200);
-	}
-
-	.page__header {
-		width: 100%;
-		display: flex;
-		align-items: center;
-		justify-content: space-between;
-		margin-block: 1.4rem;
-	}
-
-	.page__header h1 {
-		font-weight: 800;
-	}
-
-	.page__header h1 span {
-		padding: 0.1rem 0.7rem;
-		margin-inline: 0.5rem;
-		color: var(--clr-white);
-		font-size: clamp(0.5rem, 4vw + 1rem, 1rem);
-		background-color: var(--clr-primary-blue);
-		border-radius: 0.3rem;
 	}
 
 	.list {

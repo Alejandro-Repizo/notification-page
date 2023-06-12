@@ -13,7 +13,16 @@ export interface Props {
 	};
 }
 
-const {photo, user, action, event, type = "post", date, content, read} = Astro.props;
+const {
+	photo,
+	user,
+	action,
+	event,
+	type = "post",
+	date,
+	content,
+	read,
+} = Astro.props;
 
 const hasContent =
 	typeof content !== "undefined" && Object.keys(content).length > 0;
@@ -21,15 +30,19 @@ const hasContent =
 const isImage = hasContent && Object.keys(content).includes("image");
 ---
 
-<article class={`notification ${!read ? 'notification--active': ''}`}>
+<article class={`notification ${!read ? "notification--active" : ""}`}>
 	<img src={photo} alt={user} class="notification__image" />
 	<div class="notification__body">
 		<p>
 			<a href="#" class="notification__user">{user}</a>
 			{action}
-			<a href="#" data-type={type}>
-				{event}
-			</a>
+			{
+				event ? (
+					<a href="#" data-type={type}>
+						{event}
+					</a>
+				) : null
+			}
 		</p>
 		<small class="notification__date">{date}</small>
 	</div>
@@ -41,12 +54,52 @@ const isImage = hasContent && Object.keys(content).includes("image");
 				class="notification__content"
 				data-content={Object.keys(content)[0]}>
 				{isImage ? (
-					<img src={content.image} class="notification__image" alt="Notification Image" />
-				) : content.text }
+					<img
+						src={content.image}
+						class="notification__image"
+						alt="Notification Image"
+					/>
+				) : (
+					content.text
+				)}
 			</a>
 		) : null
 	}
 </article>
+
+<script>
+	import Notification from "../scripts/Notification";
+	import Observable from "../scripts/Observable";
+
+	// Crea una instancia de la clase Notification con la clase CSS 'notification--active'
+	const notification = new Notification('notification--active');
+	const unreadNotifications = document.querySelectorAll("article.notification--active");
+
+	// Itera sobre cada notificación sin leer
+	unreadNotifications.forEach((unreadNotification) => {
+		// Busca el elemento <a> dentro de la notificación que tenga el atributo 'data-type'
+		// o, en su defecto, busca el elemento <a> con la clase CSS 'notification__user'
+		const element =
+			unreadNotification.querySelector("a[data-type]") ||
+			unreadNotification.querySelector("a.notification__user");
+
+		// Agrega un evento de clic al elemento para manejar la eliminación de la notificación
+		element.addEventListener("click", clearNotificationHandler);
+	});
+
+	// Función de controlador de evento para la eliminación de notificaciones
+	function clearNotificationHandler() {
+		const closestNotification = this.closest("article.notification--active");
+
+		// Llama al método clearNotification de la instancia de Notification
+		// para eliminar la notificación más cercana encontrada
+		notification.clearNotification(closestNotification);
+
+		// Notifica a los observadores que se ha producido un cambio en las notificaciones
+		Observable.notify();
+	}
+
+</script>
 
 <style>
 	a {
@@ -81,14 +134,14 @@ const isImage = hasContent && Object.keys(content).includes("image");
 
 	.notification--active {
 		--bg-color: var(--clr-neutral-blue-100);
-		box-shadow: 0px 2px 0.2rem 0px var(--clr-neutral-blue-200);
+		box-shadow: 0px 1px 0.2rem 0px var(--clr-neutral-blue-200);
 	}
 
 	.notification--active p::after {
 		content: "";
-		margin: .0625rem .375rem ;
+		margin: 0.0625rem 0.375rem;
 		display: inline-block;
-		width: .5rem;
+		width: 0.5rem;
 		aspect-ratio: 1;
 		border-radius: 50%;
 		background-color: var(--clr-primary-red);
@@ -109,6 +162,11 @@ const isImage = hasContent && Object.keys(content).includes("image");
 		border-radius: 0.3rem;
 		padding: 0.9rem;
 		font-weight: normal;
+	}
+
+	.notification__content[data-content="text"]:hover {
+		background-color: var(--clr-neutral-blue-200);
+		color: inherit;
 	}
 
 	.notification:has(.notification__content[data-content="image"]) {
